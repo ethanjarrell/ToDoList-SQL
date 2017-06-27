@@ -1,0 +1,144 @@
+odolist=# CREATE TABLE todos (
+todolist(#       id SERIAL PRIMARY KEY,
+todolist(#       title VARCHAR(255) NOT NULL,
+todolist(#       details VARCHAR(1500) NULL,
+todolist(#       priority INTEGER NOT NULL DEFAULT (1),
+todolist(#       created_at TIMESTAMP NOT NULL,
+todolist(#       completed_at TIMESTAMP NULL);
+ERROR:  relation "todos" already exists
+todolist=#
+todolist=# \dt
+           List of relations
+ Schema | Name  | Type  |    Owner
+--------+-------+-------+--------------
+todolist=# INSERT INTO todos (title, details, priority, created_at, completed_at) VALUES (Fireman, Drives a firetruck, 2,current_timestamp, current_timestamp);
+ERROR:  syntax error at or near "a"
+LINE 1: ...created_at, completed_at) VALUES (Fireman, Drives a firetruc...
+                                                             ^
+todolist=# \dt
+           List of relations
+ Schema | Name  | Type  |    Owner
+--------+-------+-------+--------------
+ public | todos | table | ethanjarrell
+(1 row)
+
+todolist=# INSERT INTO todos (title, details, priority, created_at, completed_at) VALUES (Fireman, 'drives a firetruck', 2, current_timestamp, current_timestamp);
+ERROR:  column "fireman" does not exist
+LINE 1: ...ails, priority, created_at, completed_at) VALUES (Fireman, '...
+                                                             ^
+todolist=# INSERT INTO todos (title, details, priority, created_at, completed_at) VALUES (fireman, 'drives a firetruck', 2, current_timestamp, current_timestamp);
+ERROR:  column "fireman" does not exist
+LINE 1: ...ails, priority, created_at, completed_at) VALUES (fireman, '...
+                                                             ^
+todolist=# INSERT INTO todos (title, details, priority, created_at, completed_at) VALUES ('fireman', 'drives a firetruck', 2, current_timestamp, current_timestamp);
+INSERT 0 1
+todolist=# \dt
+           List of relations
+ Schema | Name  | Type  |    Owner
+--------+-------+-------+--------------
+ public | todos | table | ethanjarrell
+(1 row)
+
+todolist=# INSERT INTO todos (title, details, priority, created_at, completed_at) VALUES ('policeman', 'drives a police car', 4, current_timestamp, Lastupdated);
+ERROR:  column "lastupdated" does not exist
+LINE 1: ...an', 'drives a police car', 4, current_timestamp, Lastupdate...
+                                                             ^
+todolist=# INSERT INTO todos (title, details, priority, created_at, completed_at) VALUES ('policeman', 'drives a police car', 5, current_timestamp, timestamp=DEFAULT);
+ERROR:  syntax error at or near "DEFAULT"
+LINE 1: ...ves a police car', 5, current_timestamp, timestamp=DEFAULT);
+                                                              ^
+todolist=# INSERT INTO todos (title, details, priority, created_at, completed_at) VALUES ('policeman', 'drives a police car', 5, current_timestamp, current_timestamp);
+INSERT 0 1
+todolist=# INSERT INTO todos (title, details, priority, created_at, completed_at) VALUES ('garbageman', 'drives a garbage truck, 2, current_timestamp, null);
+todolist'#
+todolist'#
+todolist'# INSERT INTO todos (title, details, priority, created_at, completed_at) VALUES ('garbageman', 'drives a garbage truck, 2, current_timestamp, NULL);
+ERROR:  syntax error at or near "garbageman"
+LINE 4: ...ils, priority, created_at, completed_at) VALUES ('garbageman...
+                                                             ^
+todolist=# INSERT INTO todos (title, details, priority, created_at, completed_at) VALUES ('garbageman', 'drives a garbage truck, 2, current_timestamp,)
+todolist'#
+todolist'# INSERT INTO todos (title, details, priority, created_at, completed_at) VALUES ('clown', 'drives a clown car', 4, current_timestamp,);
+todolist'#
+todolist'#
+todolist'#
+todolist'# \dt
+todolist'# ;
+todolist'# ;;
+todolist'# '
+todolist(# ;
+todolist(#
+todolist(# '
+todolist'# =
+todolist'# '
+todolist(# \q
+ ✝  ~  psql
+psql (9.6.3)
+Type "help" for help.
+
+ethanjarrell=# \connect todolist
+You are now connected to database "todolist" as user "ethanjarrell".
+todolist=# \dt
+           List of relations
+ Schema | Name  | Type  |    Owner
+--------+-------+-------+--------------
+ public | todos | table | ethanjarrell
+(1 row)
+
+todolist=# INSERT INTO todos (title, details, priority, created_at, completed_at) VALUES ('clown', 'drives a clown car', 4, current_timestamp,);
+ERROR:  syntax error at or near ")"
+LINE 1: ...LUES ('clown', 'drives a clown car', 4, current_timestamp,);
+                                                                     ^
+todolist=# INSERT INTO todos (title, details, priority, created_at, completed_at) VALUES ('clown', 'drives a clown car', 4, current_timestamp, NULL);
+INSERT 0 1
+todolist=# INSERT INTO todos (title, details, priority, created_at, completed_at) VALUES ('doctor', 'performs surgery', 9, current_timestamp)
+todolist-# ;
+ERROR:  INSERT has more target columns than expressions
+LINE 1: ...INTO todos (title, details, priority, created_at, completed_...
+                                                             ^
+todolist=# INSERT INTO todos (title, details, priority, created_at, completed_at) VALUES ('doctor', 'performs surgery', 9, current_timestamp);
+ERROR:  INSERT has more target columns than expressions
+LINE 1: ...INTO todos (title, details, priority, created_at, completed_...
+                                                             ^
+todolist=# INSERT INTO todos (title, details, priority, created_at) VALUES ('doctor', 'does surgery', 9, current_timestamp);
+INSERT 0 1
+todolist=# INSERT INTO todos (title, details, priority, created_at) VALUES ('daredevil', 'drives over bridge', 10, current_timestamp);
+INSERT 0 1
+todolist=# UPDATE todos SET complete_at = current_timestamp WHERE title = 'clown & daredevil';
+ERROR:  column "complete_at" of relation "todos" does not exist
+LINE 1: UPDATE todos SET complete_at = current_timestamp WHERE title...
+                         ^
+todolist=# UPDATE todos SET completed_at = current_timestamp WHERE title = 'doctor';
+UPDATE 1
+todolist=# SELECT completed_at = NULL
+todolist-# SELECT completed_at = null
+todolist-#
+todolist-# SELECT title FROM todos WHERE completed_at IS NULL;
+ERROR:  syntax error at or near "SELECT"
+LINE 2: SELECT completed_at = null
+        ^
+todolist=# UPDATE todos SET completed_at WHERE id = 5;
+ERROR:  syntax error at or near "WHERE"
+LINE 1: UPDATE todos SET completed_at WHERE id = 5;
+                                      ^
+todolist=# UPDATE todos SET current_timestampe WHERE id = 5;
+ERROR:  syntax error at or near "WHERE"
+LINE 1: UPDATE todos SET current_timestampe WHERE id = 5;
+                                            ^
+todolist=# UPDATE dodos SET current_timestamp WHERE id = 5;
+ERROR:  syntax error at or near "current_timestamp"
+LINE 1: UPDATE dodos SET current_timestamp WHERE id = 5;
+                         ^
+todolist=# UPDATE todos SET current_timestamp WHERE id = 5;
+ERROR:  syntax error at or near "current_timestamp"
+LINE 1: UPDATE todos SET current_timestamp WHERE id = 5;
+                         ^
+todolist=# UPDATE todos completed_at = current_timestamp WHERE id = 5;
+ERROR:  syntax error at or near "="
+LINE 1: UPDATE todos completed_at = current_timestamp WHERE id = 5;
+                                  ^
+todolist=# UPDATE todos SET completed_at = current_timestamp WHERE id = 5;
+UPDATE 1
+todolist=# DELETE FROM todos WHERE completed_at IS NOT NULL;
+DELETE 4
+todolist=#
